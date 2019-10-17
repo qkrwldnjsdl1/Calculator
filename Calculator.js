@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import * as Font from 'expo-font';
 
 
 const styles = StyleSheet.create({
@@ -9,17 +10,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
 
-  //header
-  headerAlign: {
-    // paddingTop: 30,
-    // paddingBottom: 45,
-
-  },
-  headerText: {
-    fontSize: 40,
-    // fontFamily: 'Poppins-Bold',
-  },
-  
   //small container
   smallContainer: {
     //dropshadow
@@ -32,11 +22,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.35,
     shadowRadius: 15,
     elevation: 1,
-
   },
 
   calculatorLayout: {
-
     backgroundColor:"grey"
   },
 
@@ -76,11 +64,14 @@ const styles = StyleSheet.create({
 
 class Calculator extends Component {
   //import font and check
+  state = {
+    fontLoaded: false,
+  };
   async componentDidMount() {
-    // await Font.loadAsync({
-    //   'Poppins-Bold': require('../assets/fonts/Poppins/Poppins-Bold.ttf'),
-    //   'Poppins-Medium': require('../assets/fonts/Poppins/Poppins-Medium.ttf'),
-    // });
+    await Font.loadAsync({
+      'Poppins-Bold': require('./assets/fonts/Poppins/Poppins-Bold.ttf'),
+      'Poppins-Medium': require('./assets/fonts/Poppins/Poppins-Medium.ttf'),
+    });
 
     this.setState({ fontLoaded: true });
   }
@@ -89,7 +80,7 @@ class Calculator extends Component {
       super()
       this.state = {
         resultText: "",
-        answer: "",
+        answer: 0,
         validation: "",
         equation: [],
         oper: true,
@@ -212,15 +203,42 @@ class Calculator extends Component {
       return (
         //safe area
         <View style={styles.container}>
+          
             <View>
-                <Text>{this.state.equation} equation</Text>
+                <Text style={{ display: "none" }}>{this.state.equation} equation</Text>
             </View>
+            {
+              this.state.fontLoaded ? (
             <View>
-                <Text>{this.state.resultText} result</Text>
+                <Text style={{ 
+                  textAlign: "right",
+                  fontFamily: 'Poppins-Bold',
+                  fontSize: 20,
+                  paddingTop: 40,
+                  paddingBottom: 20,
+                  }}>{this.state.resultText} </Text>
             </View>
+              ) : null
+            }
+
+            <View style={{
+                    borderBottomColor: '#F3F3F3',
+                    borderBottomWidth: 1,           
+                  }}>
+            </View>
+
+            {
+              this.state.fontLoaded ? ( 
             <View>
-                <Text>{this.state.answer} answer</Text>
+                <Text style={{ 
+                  textAlign: "right",
+                  fontFamily: 'Poppins-Bold',
+                  fontSize: 70,
+                  paddingTop: 20,
+                  }}>{this.state.answer}</Text>
             </View>
+              ) : null
+            }
             <View style={styles.calculatorLayout}>
               <View style={styles.buttons}>
                 <View style={styles.numbers}>
@@ -255,6 +273,7 @@ class Calculator extends Component {
                     </View>
                 </View>
               </View>
+               
             </View>
         </View>
       );
