@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, Button, View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { Alert, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 
 const styles = StyleSheet.create({
@@ -126,9 +126,10 @@ class Calculator extends Component {
                     resultText: this.state.answer + " " + text + " ",
                     equation: [...this.state.equation, this.state.validation, text],
                     validation: "",
-                    oper: true
+                    oper: true,
+                    answer: 0
                   })
-            }
+            } 
             else {
                 this.setState({
                     resultText: this.state.resultText + " " + text + " ",
@@ -179,9 +180,10 @@ class Calculator extends Component {
         }
       }  
       else {
-        if (this.state.answer.length !== 0) {
+        if (this.state.answer !== 0) {
             this.setState({
-                validation: text,
+                answer: 0,
+                validation: String(text),
                 resultText: this.state.resultText + text,
                 oper: false
               })
@@ -195,11 +197,10 @@ class Calculator extends Component {
         }
       }
     }
-
     render() {
       let rows = []
-      let nums = [["C", "", "","÷"],[7,8,9,"×"],[4,5,6,"-"],[1,2,3,"+"],[".", 0, "<", "="]]
-      for(let i = 0; i < 5; i++) {
+      let nums = [[7,8,9,"×"],[4,5,6,"-"],[1,2,3,"+"]]
+      for(let i = 0; i < 3; i++) {
         let row = []
         for(let j=0; j<4; j++) {
           row.push(<TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed(nums[i][j])}>
@@ -223,7 +224,35 @@ class Calculator extends Component {
             <View style={styles.calculatorLayout}>
               <View style={styles.buttons}>
                 <View style={styles.numbers}>
+                    <View style={styles.row}>
+                        <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed("C")}>
+                            <Text style={styles.font}>C</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed()}>
+                            <Text style={styles.font}></Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed()}>
+                            <Text style={styles.font}>?</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed("÷")}>
+                            <Text style={styles.font}>÷</Text>
+                        </TouchableOpacity>
+                    </View>
                   {rows}
+                    <View style={styles.row}>
+                        <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed("0")}>
+                            <Text style={styles.font}>0</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed(".")}>
+                            <Text style={styles.font}>.</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed()}>
+                            <Text style={styles.font}></Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed("=")}>
+                            <Text style={styles.font}>=</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
               </View>
             </View>
