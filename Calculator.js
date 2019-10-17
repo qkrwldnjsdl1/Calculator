@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
 
   calculatorLayout: {
 
-    backgroundColor:"grey"
   },
 
   result: {
@@ -53,7 +52,7 @@ const styles = StyleSheet.create({
   },
   numbers: {
     flex: 1,
-    backgroundColor : "grey",
+    backgroundColor : "white",
     
   },
 
@@ -61,15 +60,24 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: 'space-around',
     fontSize: 30,
-    marginBottom:23
   },
   font: {
+    alignSelf:"center",
     fontSize: 30,
-    color: "white",
+    color: "black",
   },
   numbut: {
-    width:30,
-    alignItems: "center"
+    flex:1,
+    height:75,
+    marginLeft:5,
+    marginRight:5,
+    marginTop:5,
+    marginBottom:5,
+    borderRadius: 45,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    backgroundColor: "#F3F3F3",
+    alignSelf: "stretch"
   }
 })
 
@@ -225,11 +233,21 @@ class Calculator extends Component {
               <View style={styles.buttons}>
                 <View style={styles.numbers}>
                     <View style={styles.row}>
-                        <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed("C")}>
+                        <TouchableOpacity style={{
+                            flex:2,
+                            height:75,
+                            marginLeft:5,
+                            marginRight:5,
+                            marginTop:5,
+                            marginBottom:5,
+                            borderRadius: 45,
+                            justifyContent: 'center', 
+                            alignItems: 'center', 
+                            backgroundColor: "#F3F3F3",
+                            alignSelf: "stretch",
+                            backgroundColor: "#FFB899"
+                        }} onPress={() => this.buttonPressed("C")}>
                             <Text style={styles.font}>C</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed()}>
-                            <Text style={styles.font}></Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed()}>
                             <Text style={styles.font}>?</Text>
@@ -246,10 +264,20 @@ class Calculator extends Component {
                         <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed(".")}>
                             <Text style={styles.font}>.</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed()}>
-                            <Text style={styles.font}></Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed("=")}>
+                        <TouchableOpacity style={{
+                            flex:2,
+                            height:75,
+                            marginLeft:5,
+                            marginRight:5,
+                            marginTop:5,
+                            marginBottom:5,
+                            borderRadius: 45,
+                            justifyContent: 'center', 
+                            alignItems: 'center', 
+                            backgroundColor: "#F3F3F3",
+                            alignSelf: "stretch",
+                            backgroundColor: "#FFB899"
+                        }}  onPress={() => this.buttonPressed("=")}>
                             <Text style={styles.font}>=</Text>
                         </TouchableOpacity>
                     </View>
