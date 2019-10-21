@@ -5,9 +5,10 @@ import * as Font from 'expo-font';
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
-    marginBottom: 30,
-    marginHorizontal: 16,
+      marginTop:30,
+      marginBottom:30,
+      marginHorizontal:16,
+      flex:1
   },
 
   //small container
@@ -25,7 +26,8 @@ const styles = StyleSheet.create({
   },
 
   calculatorLayout: {
-
+      flex:3,
+      position: 'absolute', left: 0, right: 0, bottom: 0
   },
 
   result: {
@@ -70,7 +72,6 @@ const styles = StyleSheet.create({
   }
 })
 
-
 class Calculator extends Component {
   //import font and check
   state = {
@@ -93,16 +94,17 @@ class Calculator extends Component {
         validation: "",
         equation: [],
         oper: true,
-        fontLoaded: false
+        fontLoaded: false,
+        fontsize: 70
       }
     }
 
     buttonPressed(text) {
+    
+
       if (text === ".") {
         if (this.state.validation.includes(".")) {
-          Alert.alert(
-            "Cannot be two period"
-          )
+          
         } 
         else {
           this.setState({
@@ -111,13 +113,15 @@ class Calculator extends Component {
             oper: true
           })
         }
-      } else if (text === "C") {
+      } 
+      else if (text === "C") {
         this.setState({
           resultText: "",
           equation: [],
           validation: "",
           oper: true,
-          answer: 0
+          answer: 0,
+          fontsize:70
         })
       } else if (text === "×" || text === "÷" || text === "+" || text === "-") {
         if (this.state.oper === false) {
@@ -170,33 +174,78 @@ class Calculator extends Component {
                   }
                 }
               }
-              this.setState({
-                resultText: "",
-                validation: copy,
-                equation: [],
-                answer: copy
-              })
+              if (String(copy).length > 10) {
+                this.setState({
+                    resultText: "",
+                    validation: copy,
+                    equation: [],
+                    fontsize: 20,
+                    answer: copy,
+                })
+              }
+              else if (String(copy).length > 6) {
+                this.setState({
+                    resultText: "",
+                    validation: copy,
+                    equation: [],
+                    fontsize:50,
+                    answer: copy,
+                })
+            }
+                else {
+                    this.setState({
+                        resultText: "",
+                        validation: copy,
+                        equation: [],
+                        answer: copy,
+                    })
+                }
           })
         }
       }  
       else {
-        if (this.state.answer !== 0) {
-            this.setState({
-                answer: 0,
-                validation: String(text),
-                resultText: this.state.resultText + text,
-                oper: false
-              })
+            if (this.state.answer !== 0) {
+                if (text === "?") {
+                    let rn = Math.floor(Math.random() * 10);
+                    this.setState({
+                        answer: 0,
+                        validation: String(rn),
+                        resultText: this.state.resultText + String(rn),
+                        oper: false,
+                    })
+                } else {
+                this.setState({
+                    answer: 0,
+                    validation: String(text),
+                    resultText: this.state.resultText + text,
+                    oper: false,
+                })
+                }
+            }
+            else {
+                if (this.state.resultText.length > 85) {
+
+                }
+                else {
+                if (text === "?") {
+                    let rn = Math.floor(Math.random() * 10);
+                    this.setState({
+                        validation: this.state.validation + String(rn),
+                        resultText: this.state.resultText + String(rn),
+                        oper: false,
+                    })
+                } else {
+                this.setState({
+                    resultText: this.state.resultText + text,
+                    validation: this.state.validation + text,
+                    oper : false,
+                })
+            }
         }
-        else {
-            this.setState({
-                resultText: this.state.resultText + text,
-                validation: this.state.validation + text,
-                oper : false
-            })
+            }
         }
-      }
     }
+
     render() {
       let rows = []
       let nums = [[7,8,9,"×"],[4,5,6,"-"],[1,2,3,"+"]]
@@ -212,20 +261,16 @@ class Calculator extends Component {
       return (
         //safe area
         <View style={styles.container}>
-          
-            <View>
-                <Text style={{ display: "none" }}>{this.state.equation} equation</Text>
-            </View>
-            {
+            <View style={styles.calculatorLayout}>
+              <View>
+              {
               this.state.fontLoaded ? (
-            <View>
-                <Text style={{ 
+            <View style={{}}>
+                <Text style={{
                   textAlign: "right",
                   fontFamily: 'Poppins-Bold',
                   fontSize: 20,
-                  paddingTop: 40,
-                  paddingBottom: 20,
-                  }}>{this.state.resultText} </Text>
+                  }}>{this.state.resultText}</Text>
             </View>
               ) : null
             }
@@ -239,16 +284,17 @@ class Calculator extends Component {
             {
               this.state.fontLoaded ? ( 
             <View>
-                <Text style={{ 
-                  textAlign: "right",
-                  fontFamily: 'Poppins-Bold',
-                  fontSize: 70,
-                  paddingTop: 20,
-                  }}>{this.state.answer}</Text>
+                <Text style={{
+                textAlign: "right",
+                fontFamily: 'Poppins-Bold',
+                fontSize: this.state.fontsize,
+                }}>
+                    {this.state.answer}
+                </Text>
             </View>
               ) : null
             }
-            <View style={styles.calculatorLayout}>
+              </View>
               <View style={styles.buttons}>
                 <View style={styles.numbers}>
                     <View style={styles.row}>
@@ -268,7 +314,7 @@ class Calculator extends Component {
                         }} onPress={() => this.buttonPressed("C")}>
                             <Text style={styles.font}>C</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed()}>
+                        <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed("?")}>
                             <Text style={styles.font}>?</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.numbut} onPress={() => this.buttonPressed("÷")}>
